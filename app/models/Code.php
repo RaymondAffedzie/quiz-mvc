@@ -6,26 +6,27 @@
 
 namespace Model;
 
-Class Code
+class Code
 {
     private static $alphaNumeric = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
     private static $digits = '0123456789';
-    private static $uniqueValue = null;
 
-    // generate a unique characters mixed alphanumeric characters
+    // Generate a unique alphanumeric string
     public static function mixed_alphanumeric($length = 15)
     {
+        $alphaNumericLength = strlen(self::$alphaNumeric);
+        $uniqueValue = '';
+
         // Choose a random letter to be the first character of the unique ID
-        self::$uniqueValue .= chr(rand(65, 90));
+        $uniqueValue .= chr(random_int(65, 90));
 
         for ($i = 1; $i < $length; $i++) {
-            $index = rand(0, strlen(self::$alphaNumeric) - 1);
-            self::$uniqueValue .= self::$alphaNumeric[$index];
+            $index = random_int(0, $alphaNumericLength - 1);
+            $uniqueValue .= self::$alphaNumeric[$index];
         }
 
-        return self::$uniqueValue;
+        return $uniqueValue;
     }
-
     // generate uuid v4 string (a 36 long characters of mixed alphanumeric)
     public static function uuid_v4()
     {
@@ -39,21 +40,23 @@ Class Code
     // generate a unique strings for digits for id
     public static function codeDigits($length = 9)
     {
+        $uniqueValue = '';
         for ($i = 1; $i < $length; $i++) {
             $index = rand(0, strlen(self::$digits) - 1);
-            self::$uniqueValue .= self::$digits[$index];
+            $uniqueValue .= self::$digits[$index];
         }
 
-        return self::$uniqueValue;
+        return $uniqueValue;
     }
 
     // Generate a 6 digit length OTP
     public static function OTP()
     {
+        $uniqueValue = '';
         $otpLength = 6;
         for ($i = 0; $i < $otpLength; $i++) {
-            self::$uniqueValue .= self::$digits[rand(0, strlen(self::$digits) - 1)];
+            $uniqueValue .= self::$digits[rand(0, strlen(self::$digits) - 1)];
         }
-        return self::$uniqueValue;
+        return $uniqueValue;
     }
 }

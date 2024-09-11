@@ -356,12 +356,13 @@ class User
 			/** Validate each row data **/
 			if ($this->validate($rowData)) {
 
-				/** Generate user ID and password **/
+				/** Generate user ID  **/
 				$code = new Code();
 				$rowData['user_id'] = $code->uuid_v4();
 
-				$generated_password = '';
-				$generated_password = $code->mixed_alphanumeric(10);
+				/** Generate user password **/
+				$pass_code = new Code;
+				$generated_password = $pass_code->mixed_alphanumeric(10);
 				$rowData['password'] = password_hash($generated_password, PASSWORD_BCRYPT);
 	 
 
