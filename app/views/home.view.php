@@ -6,7 +6,6 @@
     <meta charset="UTF-8">
     <meta name="description" content="<?= APP_DESC; ?>">
     <meta name="author" content="<?= AUTHOR; ?>">
-    <meta name="author" content="<?= CO_AUTHOR; ?>">
     <!-- <meta http-equiv="refresh" content="30"> -->
     <meta name="keywords" content="quiz, past questions, past questions quiz, personal quiz, shs, jhs, tvet, primary, private studies, personal studies, online quiz, quiz application">
     <meta name="robots" content="index, follow">

@@ -108,7 +108,7 @@
 <?php else : ?>
 
     <div class="row">
-        <div class="col-12 col-md-10 col-lg-9 col-xl-8 mx-auto grid-margin">
+        <div class="col-12 grid-margin">
             <div class="card">
                 <?php if (!empty($data['row'])) : ?>
                     <div class="card-body">

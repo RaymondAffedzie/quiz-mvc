@@ -170,7 +170,7 @@ class User
 			// send email to user after sigingup
 			$email = new Email;
 			$subject = 'Registration Successful';
-			$message = "Your account at <a href=".ROOT. ">". APP_NAME . "</a> has been created successfully. <br>Thanks";
+			$message = "Your account at <a href=" . ROOT . ">" . APP_NAME . "</a> has been created successfully. <br>Thanks";
 			$email->send_message($data['email'], $subject, $message);
 
 			// redirect to the login page
@@ -221,11 +221,11 @@ class User
 	public function add($data)
 	{
 		if ($this->validate($data)) {
-			
+
 			// generate password for user registered by admin
 			$code = new Code();
-			$generated_password = $code->mixed_alphanumeric(10); 
-			
+			$generated_password = $code->mixed_alphanumeric(10);
+
 			// add extra user columns here
 			$data['date_updated'] = date("Y-m-d H:i:s");
 			$data['date_created'] = date("Y-m-d H:i:s");
@@ -236,7 +236,7 @@ class User
 			$data['school_name'] = ucwords($data['school_name']);
 			$data['user_id'] = $code->uuid_v4();
 
-			 // hash password
+			// hash password
 			$data['password'] = password_hash($generated_password, PASSWORD_BCRYPT);
 			$this->insert($data);
 
@@ -264,7 +264,7 @@ class User
 
 			$this->update($data['user_id'], $data, $this->primaryKey);
 			message("User account updated!");
-			
+
 			$base = URL(1);
 			if ($base == 'profile') {
 				redirect("admin/profile");
@@ -301,5 +301,107 @@ class User
 		$this->delete($data['user_id'], $this->primaryKey);
 		message("User account deleted!");
 		redirect('admin/users');
+	}
+
+	public function add_multiple($upload, $data)
+	{
+		if ($this->validate($upload)) {
+			$excel = new Excel;
+			$excel_data = $excel->read_data($upload, $data);
+			$this->process_data($excel_data);
+			// die;
+			redirect('admin/users');
+		}
+	}
+
+	private function process_data($rows)
+	{
+		$errors = [];
+		$successCount = 0;
+
+		/** Process the rows and insert into the database **/
+		foreach ($rows as $index => $row) {
+
+			/** Skip the first row (header) **/
+			if ($index === 0) {
+				continue;
+			}
+
+
+			$level = '';
+			$query = "SELECT level_id FROM levels WHERE level_name = :level_name || level_abbreviation = :level_abbreviation";
+			$level = $this->query($query, ['level_name' => $row[5], 'level_abbreviation' => $row[6]]);
+
+			/** Check if level_id was found **/
+			if (empty($level)) {
+
+				message('The Level ' . ucwords($row[5] . ' (' . strtoupper($row[6])). ') was not found in our database. Check row ' . $index . ' in your excel file.');
+				redirect("admin/users/upload-file");
+				break;
+			}
+
+			/** Map excel columns to database data **/
+			$rowData = [
+				'first_name' => ucwords($row[0]),
+				'last_name' => ucwords($row[1]),
+				'contact' => $row[2],
+				'email' => $row[3],
+				'school_name' => ucwords($row[4]),
+				'level_id' => $level[0]->level_id,
+				'role' => 'student',
+				'date_created' => date("Y-m-d H:i:s"),
+				'date_updated' => date("Y-m-d H:i:s")
+			];
+
+			/** Validate each row data **/
+			if ($this->validate($rowData)) {
+
+				/** Generate user ID and password **/
+				$code = new Code();
+				$rowData['user_id'] = $code->uuid_v4();
+
+				$generated_password = '';
+				$generated_password = $code->mixed_alphanumeric(10);
+				$rowData['password'] = password_hash($generated_password, PASSWORD_BCRYPT);
+	 
+
+				/** Insert the data into the database **/
+				$this->insert($rowData);
+
+				/** Send the generate password through email to the user **/
+				$subject = APP_NAME . ": New Account Registration";
+				$message = 'Your password is '.$generated_password.' <br> Login at '. ROOT .'/login';
+
+				$email = new Email;
+				$email->send_message($rowData['email'], $subject, $message);
+
+				$successCount++;
+			} else {
+
+				/** Collect errors and stop processing on first error **/
+				$errors[$index + 1] = $this->errors;
+				break;
+			}
+		}
+
+		if (empty($errors)) {
+
+			/** Success message **/
+			message("{$successCount} user(s) account created successfully!");
+		} else {
+
+			/** Handle errors (messages)**/
+			$errorMessages = "";
+			foreach ($errors as $row => $errorArray) {
+
+				$formattedErrors = array_map(function ($error) {
+					return formatFieldName($error);
+				}, $errorArray);
+
+				$errorMessages .= "Error in row $row: " . implode(", ", $formattedErrors) . ". ";
+			}
+
+			message($errorMessages);
+		}
 	}
 }

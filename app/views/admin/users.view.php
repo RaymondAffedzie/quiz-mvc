@@ -43,7 +43,7 @@
                                     <label class="col-sm-3 col-form-label">Role</label>
                                     <div class="col-sm-3">
                                         <div class="form-check">
-                                            <label for="role-student" class="form-check-label"> 
+                                            <label for="role-student" class="form-check-label">
                                                 <input type="radio" class="form-check-input" name="role" id="role-student" value="student" <?= old_checked('role', 'student'); ?> checked> Student
                                             </label>
                                         </div>
@@ -51,14 +51,14 @@
                                     <div class="col-sm-3">
                                         <div class="form-check">
                                             <label for="role-teacher" class="form-check-label">
-                                                <input type="radio" class="form-check-input" name="role" id="role-teacher" value="teacher" <?= old_checked('role', 'teacher'); ?> > Teacher
+                                                <input type="radio" class="form-check-input" name="role" id="role-teacher" value="teacher" <?= old_checked('role', 'teacher'); ?>> Teacher
                                             </label>
                                         </div>
                                     </div>
                                     <div class="col-sm-3">
                                         <div class="form-check">
                                             <label for="role-admin" class="form-check-label">
-                                                <input type="radio" class="form-check-input" name="role" id="role-admin" value="admin"  <?= old_checked('role', 'admin'); ?> > Admin
+                                                <input type="radio" class="form-check-input" name="role" id="role-admin" value="admin" <?= old_checked('role', 'admin'); ?>> Admin
                                             </label>
                                         </div>
                                     </div>
@@ -96,12 +96,12 @@
                                     <label for="level" class="col-sm-3 col-form-label">Level</label>
                                     <div class="col-sm-9">
                                         <select class="form-control text-white" id="level" name="level_id">
-                                        <?php if (!empty($data['levels'])) : ?>
-                                            <option value="">Select a level</option>
-                                            <?php foreach ($data['levels'] as $level) : ?>
-                                            <option value="<?=$level->level_id; ?>" <?= old_select('level_id', $level->level_id ?? ''); ?> > <?= $level->level_name; ?> </option>
-                                            <?php endforeach; ?>
-                                        <?php endif; ?>
+                                            <?php if (!empty($data['levels'])) : ?>
+                                                <option value="">Select a level</option>
+                                                <?php foreach ($data['levels'] as $level) : ?>
+                                                    <option value="<?= $level->level_id; ?>" <?= old_select('level_id', $level->level_id ?? ''); ?>> <?= $level->level_name; ?> </option>
+                                                <?php endforeach; ?>
+                                            <?php endif; ?>
                                         </select>
                                         <?= !empty($user->getError('level_id')) ? '<span class="text-danger text-left">' . formatFieldName($user->getError('level_id')) . '</span>' : ""; ?>
                                     </div>
@@ -132,6 +132,53 @@
             </div>
         </div>
     </div>
+<?php elseif ($action === 'upload-file') : ?>
+
+    <div class="row">
+        <div class="col-12 grid-margin">
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="card-title">
+                        <?= ucfirst($action); ?>
+                    </h2>
+                    <form class="form-sample" method="post" enctype="multipart/form-data">
+                        <p class="card-description"> Accepted files .xls, .xlsx or .csv </p>
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div class="form-group row">
+                                    <label class="col-sm-4 col-form-label">File</label>
+                                    <div class="col-sm-12">
+                                        <input type="file" class="form-control text-white" name="import_excel" value="<?= old_value('import_excel'); ?>" placeholder="Select excel file" autofocus />
+                                        <?= !empty($user->getError('import_excel')) ? '<span class="text-danger text-left">' . formatFieldName($user->getError('import_excel')) . '</span>' : ''; ?>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4" hidden>
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label"></label>
+                                    <div class="col-sm-9">
+                                        <input type="hidden" class="form-control text-white" name="name" value="<?= old_value('name'); ?>" placeholder="" hidden />
+                                        <?= !empty($user->getError('name')) ? '<span class="text-danger text-left">' . formatFieldName($user->getError('name')) . '</span>' : ""; ?>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <a href="<?= ROOT; ?>/admin/users">
+                                    <button type="button" class="btn btn-danger">Cancel</button>
+                                </a>
+                            </div>
+                            <div class="col-md-6">
+                                <button type="submit" class="btn btn-primary float-lg-end me-2">Submit</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
 <?php else : ?>
 
@@ -141,18 +188,22 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-9">
-                            <div class="d-flex align-items-center align-self-start">
-                                <h3 class="mb-0">Growth</h3>
-                                <p class="text-info ms-2 mb-0 font-weight-medium">+3.5%</p>
-                            </div>
+                            <a href="<?= ROOT; ?>/admin/users/upload-file" style="text-decoration: none;">
+                                <div class="d-flex align-items-center align-self-start">
+                                    <h3 class="mb-0 text-white">Add Multiple</h3>
+                                    <p class="text-success ms-2 mb-0 font-weight-medium">+</p>
+                                </div>
+                            </a>
                         </div>
                         <div class="col-3">
                             <div class="icon icon-box-info">
-                                <span class="mdi mdi-arrow-top-right icon-item"></span>
+                                <a href="<?= ROOT; ?>/admin/users/upload-file">
+                                    <span class="mdi mdi-arrow-top-right icon-item"></span>
+                                </a>
                             </div>
                         </div>
                     </div>
-                    <h6 class="text-muted font-weight-normal">Potential growth</h6>
+                    <h6 class="text-muted font-weight-normal">Excel file</h6>
                 </div>
             </div>
         </div>

@@ -98,6 +98,13 @@ class Admin
 			if ($req->posted()) {
 				$data['user']->add($_POST);
 			}
+
+		} elseif ($action === 'upload-file') {
+
+			if ($req->posted()) {
+				$data['user']->add_multiple($_FILES, $_POST);
+			}
+			
 		} else {
 			// Fetch users 
 			$limit = 25;

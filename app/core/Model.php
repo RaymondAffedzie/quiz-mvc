@@ -148,6 +148,7 @@ trait Model
 		return $this->primaryKey ?? 'id';
 	}
 
+	/** validate form data **/
 	public function validate($data)
 	{
 
@@ -170,79 +171,143 @@ trait Model
 
 					switch ($rule) {
 						case 'match':
-							if ($column == 'confirm_password' && $data['new_password'] !== $data['confirm_password']) {
+							if ($column == 'confirm_password' && $data['new_password'] !== $data['confirm_password'])
 								$this->errors[$column] = "New password and Confirm Password do not match";
-							}
+							
 							break;
+
 						case 'accept':
-							if ($column === 'terms' && $data[$column] !== 'accepted') {
+							if ($column === 'terms' && $data[$column] !== 'accepted')
 								$this->errors[$column] = "You must accept our " . $column;
-							}
+
 							break;
+
 						case 'required':
 
 							if (empty($data[$column]))
 								$this->errors[$column] = ucfirst($column) . " is required";
+							
 							break;
+
 						case 'password':
 
-							// checks if user password match old password
+							/** checks if user password match old password **/
 
 							$query = "SELECT password FROM users WHERE user_id = :user_id";
 							$row = $this->query($query, ['user_id' => $data['user_id']]);
 
 							if (!password_verify($_POST['verify_password'], $row[0]->password)) {
-								# code...
-
 								$this->errors[$column] = "You entered a wrong password";
 							}
 
 							break;
+
 						case 'email':
 
 							if (!filter_var(trim($data[$column]), FILTER_VALIDATE_EMAIL))
 								$this->errors[$column] = "Invalid email address";
+
 							break;
+
+						case 'excel':
+
+							if (empty($data[$column]['name'])) {
+
+								$this->errors[$column] = "Select a file";
+
+							} else {
+								
+								$file = $data[$column];
+								$allowedExtensions = ['xls', 'xlsx', 'csv'];
+								$fileExtension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+	
+								/** Checks for file extension **/
+								if (!in_array($fileExtension, $allowedExtensions)) {
+									$this->errors[$column] = "Invalid file type, only .xls, .xlsx, and .csv files are allowed.";
+								}
+
+								/** Checks for uploading error**/
+								if ($file['error'] !== UPLOAD_ERR_OK) {
+									$this->errors[$column] = "Error uploading the file.";
+								}
+							}
+
+							break;
+
+						case 'docs':
+
+							if (empty($data[$column]['name'])) {
+
+								$this->errors[$column] = "Select a file";
+
+							} else {
+								
+								$file = $data[$column];
+								$allowedExtensions = ['doc', 'docx', 'ppt', 'pptx', 'pdf', 'txt'];
+								$fileExtension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+	
+								if (!in_array($fileExtension, $allowedExtensions)) {
+
+									$this->errors[$column] = "Invalid file type. Only .doc, .docx, .ppt, .pptx, .pdf, and .txt files are allowed.";
+								}
+							}
+
+							break;
+
 						case 'alpha':
 
 							if (!preg_match("/^[a-zA-Z]+$/", trim($data[$column])))
 								$this->errors[$column] = ucfirst($column) . " should only have aphabetical letters without spaces";
+
 							break;
+
 						case 'alpha_space':
 
 							if (!preg_match("/^[a-zA-Z ]+$/", trim($data[$column])))
 								$this->errors[$column] = ucfirst($column) . " should only have aphabetical letters & spaces";
+
 							break;
+
 						case 'alpha_numeric_space':
 
 							if (!preg_match("/^[a-zA-Z0-9 ]+$/", trim($data[$column])))
 								$this->errors[$column] = ucfirst($column) . " should only have aphabetical letters, numbers or spaces";
+
 							break;
+
 						case 'alpha_numeric':
 
 							if (!preg_match("/^[a-zA-Z0-9]+$/", trim($data[$column])))
 								$this->errors[$column] = ucfirst($column) . " should only have aphabetical letters & numbers";
+
 							break;
+
 						case 'numeric':
 
 							if (!preg_match("/^[0-9]+$/", trim($data[$column])))
 								$this->errors[$column] = ucfirst($column) . " should only have numbers";
+
 							break;
+
 						case 'alpha_numeric_symbol':
 
 							if (!preg_match("/^[a-zA-Z0-9\-\_\$\%\*\[\]\(\)\&\'\:\;\-\!\ ]+$/", trim($data[$column])))
 								$this->errors[$column] = ucfirst($column) . " should only have aphabetical letters, symbols, numbers & spaces";
+
 							break;
+
 						case 'alpha_symbol':
 
 							if (!preg_match("/^[a-zA-Z\-\_\$\%\*\[\]\(\)\&\.\?\=\#\@\!\ ]+$/", trim($data[$column])))
 								$this->errors[$column] = ucfirst($column) . " should only have aphabetical letters, space & symbols";
+
 							break;
 
 						case 'not_less_than_8_chars':
 
 							if (strlen(trim($data[$column])) < 8)
 								$this->errors[$column] = ucfirst($column) . " should not be less than 8 characters";
+
 							break;
 
 						case 'unique':
@@ -259,10 +324,12 @@ trait Model
 									$this->errors[$column] = ucfirst($column) . " should be unique";
 								}
 							}
+
 							break;
 
 						default:
 							$this->errors['rules'] = "The rule " . $rule . " was not found!";
+
 							break;
 					}
 				}

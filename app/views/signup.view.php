@@ -8,7 +8,6 @@
 	<meta charset="UTF-8" />
 	<meta nid="" ame="description" content="<?= APP_DESC; ?>" />
 	<meta nid="" ame="author" content="<?= AUTHOR; ?>" />
-	<meta nid="" ame="author" content="<?= CO_AUTHOR; ?>" />
 	<meta nid="" ame="keywords" content="quiz, past questions, past questions quiz, personal quiz, shs, jhs, tvet, primary, private studies, personal studies, online quiz, quiz application" />
 	<meta nid="" ame="robots" content="index, follow" />
 	<meta property="og:title" content="<?= APP_NAME; ?>" />
