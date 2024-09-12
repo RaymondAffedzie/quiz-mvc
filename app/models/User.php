@@ -306,15 +306,16 @@ class User
 	public function add_multiple($upload, $data)
 	{
 		if ($this->validate($upload)) {
+
 			$excel = new Excel;
-			$excel_data = $excel->read_data($upload, $data);
-			$this->process_data($excel_data);
-			// die;
+			$excel_data = $excel->import_file($upload, $data);
+			$this->process_import_file_data($excel_data);
+
 			redirect('admin/users');
 		}
 	}
 
-	private function process_data($rows)
+	private function process_import_file_data($rows)
 	{
 		$errors = [];
 		$successCount = 0;
@@ -327,8 +328,6 @@ class User
 				continue;
 			}
 
-
-			$level = '';
 			$query = "SELECT level_id FROM levels WHERE level_name = :level_name || level_abbreviation = :level_abbreviation";
 			$level = $this->query($query, ['level_name' => $row[5], 'level_abbreviation' => $row[6]]);
 

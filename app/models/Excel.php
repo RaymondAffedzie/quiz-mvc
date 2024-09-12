@@ -19,7 +19,7 @@ class Excel
 
 	public $errors = [];
 
-	public function read_data($upload, $data)
+	public function import_file($upload, $data)
 	{
 		$file = $upload['import_excel'];
 		$filePath = $file['tmp_name'];
