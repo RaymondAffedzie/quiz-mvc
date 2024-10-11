@@ -132,6 +132,7 @@
             </div>
         </div>
     </div>
+    
 <?php elseif ($action === 'upload-file') : ?>
 
     <div class="row">
@@ -142,13 +143,13 @@
                         <?= ucfirst($action); ?>
                     </h2>
                     <form class="form-sample" method="post" enctype="multipart/form-data">
-                        <p class="card-description"> Accepted files .xls, .xlsx or .csv </p>
+                        <p class="card-description"> Only .csv file is accepted </p>
                         <div class="row">
                             <div class="col-md-8">
                                 <div class="form-group row">
                                     <label class="col-sm-4 col-form-label">File</label>
                                     <div class="col-sm-12">
-                                        <input type="file" class="form-control text-white" name="import_excel" value="<?= old_value('import_excel'); ?>" placeholder="Select excel file" autofocus />
+                                        <input type="file" class="form-control text-white" name="import_excel" value="<?= old_value('import_excel'); ?>" placeholder="Select excel (.csv) file" autofocus />
                                         <?= !empty($user->getError('import_excel')) ? '<span class="text-danger text-left">' . formatFieldName($user->getError('import_excel')) . '</span>' : ''; ?>
                                     </div>
                                 </div>
@@ -178,7 +179,6 @@
             </div>
         </div>
     </div>
-
 
 <?php else : ?>
 

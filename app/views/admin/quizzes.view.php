@@ -23,12 +23,12 @@
                                     <label class="col-sm-3 col-form-label">Category</label>
                                     <div class="col-sm-9">
                                         <select class="form-control text-white" id="category" name="category_id">
-                                        <?php if (!empty($data['categories'])) : ?>
-                                            <option value="">Select a category</option>
-                                            <?php foreach ($data['categories'] as $category) : ?>
-                                            <option value="<?=$category->category_id; ?>" <?= old_select('category_id', $category->category_id ?? ''); ?> > <?= $category->category_name; ?> </option>
-                                            <?php endforeach; ?>
-                                        <?php endif; ?>
+                                            <?php if (!empty($data['categories'])) : ?>
+                                                <option value="">Select a category</option>
+                                                <?php foreach ($data['categories'] as $category) : ?>
+                                                    <option value="<?= $category->category_id; ?>" <?= old_select('category_id', $category->category_id ?? ''); ?>> <?= $category->category_name; ?> </option>
+                                                <?php endforeach; ?>
+                                            <?php endif; ?>
                                         </select>
                                         <?= !empty($quiz->getError('category_id')) ? '<span class="text-danger text-left">' . formatFieldName($quiz->getError('category_id')) . '</span>' : ""; ?>
                                     </div>
@@ -39,31 +39,31 @@
                                     <label class="col-sm-3 col-form-label">Level</label>
                                     <div class="col-sm-9">
                                         <select class="form-control text-white" id="level" name="level_id">
-                                        <?php if (!empty($data['levels'])) : ?>
-                                            <option value="">Select a level</option>
-                                            <?php foreach ($data['levels'] as $level) : ?>
-                                            <option value="<?=$level->level_id; ?>" <?= old_select('level_id', $level->level_id ?? ''); ?> > <?= $level->level_name; ?> </option>
-                                            <?php endforeach; ?>
-                                        <?php endif; ?>
+                                            <?php if (!empty($data['levels'])) : ?>
+                                                <option value="">Select a level</option>
+                                                <?php foreach ($data['levels'] as $level) : ?>
+                                                    <option value="<?= $level->level_id; ?>" <?= old_select('level_id', $level->level_id ?? ''); ?>> <?= $level->level_name; ?> </option>
+                                                <?php endforeach; ?>
+                                            <?php endif; ?>
                                         </select>
                                         <?= !empty($quiz->getError('level_id')) ? '<span class="text-danger text-left">' . formatFieldName($quiz->getError('level_id')) . '</span>' : ""; ?>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group row">
                                     <label for="email" class="col-sm-3 col-form-label">Subject</label>
                                     <div class="col-sm-9">
                                         <select class="form-control text-white" id="subject" name="subject_id" value="<?= old_select('subject_id', 'subject_name'); ?>">
-                                        <?php if (!empty($data['subjects'])) : ?>
-                                            <option value="">Select a subject</option>
-                                            <?php foreach ($data['subjects'] as $subject) : ?>
-                                            <option value="<?=$subject->subject_id; ?>" <?= old_select('subject_id', $subject->subject_id ?? ''); ?> > <?= $subject->subject_title; ?> </option>
-                                            <?php endforeach; ?>
-                                        <?php endif; ?>
+                                            <?php if (!empty($data['subjects'])) : ?>
+                                                <option value="">Select a subject</option>
+                                                <?php foreach ($data['subjects'] as $subject) : ?>
+                                                    <option value="<?= $subject->subject_id; ?>" <?= old_select('subject_id', $subject->subject_id ?? ''); ?>> <?= $subject->subject_title; ?> </option>
+                                                <?php endforeach; ?>
+                                            <?php endif; ?>
                                         </select>
                                         <?= !empty($quiz->getError('subject_id')) ? '<span class="text-danger text-left">' . formatFieldName($quiz->getError('subject_id')) . '</span>' : ""; ?>
                                     </div>
@@ -73,13 +73,13 @@
                                 <div class="form-group row">
                                     <label for="year_or_form" class="col-sm-3 col-form-label">Year or Form</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control text-white" id="year_or_form" name="year_or_form" value="<?= old_value('year_or_form'); ?>" min="4" max="6" placeholder="<?=date('Y');?> or Form 2" />
+                                        <input type="text" class="form-control text-white" id="year_or_form" name="year_or_form" value="<?= old_value('year_or_form'); ?>" min="4" max="6" placeholder="<?= date('Y'); ?> or Form 2" />
                                         <?= !empty($quiz->getError('year_or_form')) ? '<span class="text-danger text-left">' . formatFieldName($quiz->getError('year_or_form')) . '</span>' : ""; ?>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                       
+
                         <div class="row">
                             <div class="col-md-6">
                                 <a href="<?= ROOT; ?>/admin/quizzes">
@@ -95,7 +95,7 @@
             </div>
         </div>
     </div>
-
+    
 <?php else : ?>
 
     <div class="row">
@@ -104,18 +104,22 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-9">
-                            <div class="d-flex align-items-center align-self-start">
-                                <h3 class="mb-0">Growth</h3>
-                                <p class="text-info ms-2 mb-0 font-weight-medium">+3.5%</p>
-                            </div>
+                            <a href="<?= ROOT; ?>/admin/quizzes/upload-questions" style="text-decoration: none;">
+                                <div class="d-flex align-items-center align-self-start">
+                                    <h3 class="mb-0 text-white">Add Multiple</h3>
+                                    <p class="text-success ms-2 mb-0 font-weight-medium">+</p>
+                                </div>
+                            </a>
                         </div>
                         <div class="col-3">
                             <div class="icon icon-box-info">
-                                <span class="mdi mdi-arrow-top-right icon-item"></span>
+                                <a href="<?= ROOT; ?>/admin/quizzes/upload-questions">
+                                    <span class="mdi mdi-arrow-top-right icon-item"></span>
+                                </a>
                             </div>
                         </div>
                     </div>
-                    <h6 class="text-muted font-weight-normal">Potential growth</h6>
+                    <h6 class="text-muted font-weight-normal">Excel file</h6>
                 </div>
             </div>
         </div>

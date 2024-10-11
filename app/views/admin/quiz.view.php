@@ -16,86 +16,24 @@
                         <?= ucfirst($action); ?>
                     </h2>
                     <form class="form-sample" method="post" enctype="multipart/form-data">
-                        <input type="hidden" name="quiz_id" id="" value="<?= old_value('quiz_id', $row->quiz_id ?? ''); ?>">
-                        <p class="card-description"> Questions info </p>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group row">
-                                    <label class="col-sm-3 col-form-label">Quetion</label>
-                                    <div class="col-sm-9">
-                                        <textarea class="form-control text-white" id="question" name="question" value="<?= old_value('question'); ?>"></textarea>
-                                        <?= !empty($quiz->getError('category_id')) ? '<span class="text-danger text-left">' . formatFieldName($quiz->getError('category_id')) . '</span>' : ""; ?>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group row">
-                                    <label class="col-sm-3 col-form-label">Correct Answer</label>
-                                    <div class="col-sm-9">
-                                        <textarea class="form-control text-white" id="correct_answer" name="correct_answer" value="<?= old_value('correct_answer'); ?>"></textarea>
-                                        <?= !empty($quiz->getError('subject_id')) ? '<span class="text-danger text-left">' . formatFieldName($quiz->getError('subject_id')) . '</span>' : ""; ?>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
 
-                        <p class="card-description"> Options info </p>
+                        <p class="card-description"> Only .csv file is accepted </p>
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-8">
                                 <div class="form-group row">
-                                    <label class="col-sm-3 col-form-label">First Option</label>
-                                    <div class="col-sm-9">
-                                        <textarea class="form-control text-white" id="option" name="option" value="<?= old_value('option'); ?>"></textarea>
-                                        <?= !empty($quiz->getError('level_id')) ? '<span class="text-danger text-left">' . formatFieldName($quiz->getError('level_id')) . '</span>' : ""; ?>
+                                    <label class="col-sm-4 col-form-label">File</label>
+                                    <div class="col-sm-12">
+                                        <input type="file" class="form-control text-white" name="import_excel" value="<?= old_value('import_excel'); ?>" placeholder="Select excel (.csv) file" autofocus />
+                                        <?= !empty($question->getError('import_excel')) ? '<span class="text-danger text-left">' . formatFieldName($question->getError('import_excel')) . '</span>' : ''; ?>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-4" hidden>
                                 <div class="form-group row">
-                                    <label class="col-sm-3 col-form-label">Second Option</label>
-                                    <div class="col-sm-9">
-                                        <textarea class="form-control text-white" id="option" name="option" value="<?= old_value('option'); ?>"></textarea>
-                                        <?= !empty($quiz->getError('level_id')) ? '<span class="text-danger text-left">' . formatFieldName($quiz->getError('level_id')) . '</span>' : ""; ?>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group row">
-                                    <label class="col-sm-3 col-form-label">Third Option</label>
-                                    <div class="col-sm-9">
-                                        <textarea class="form-control text-white" id="option" name="option" value="<?= old_value('option'); ?>"></textarea>
-                                        <?= !empty($quiz->getError('level_id')) ? '<span class="text-danger text-left">' . formatFieldName($quiz->getError('level_id')) . '</span>' : ""; ?>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group row">
-                                    <label class="col-sm-3 col-form-label">Forth Option</label>
-                                    <div class="col-sm-9">
-                                        <textarea class="form-control text-white" id="option" name="option" value="<?= old_value('option'); ?>"></textarea>
-                                        <?= !empty($quiz->getError('level_id')) ? '<span class="text-danger text-left">' . formatFieldName($quiz->getError('level_id')) . '</span>' : ""; ?>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group row">
-                                    <label for="" class="col-sm-3 col-form-label">Image</label>
-                                    <div class="col-sm-9">    
-                                        <input type="file" class="form-control text-white" name="image" accept="image/*" placeholder="Upload Image">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group row">
-                                    <label class="col-sm-3 col-form-label">Comment</label>
-                                    <div class="col-sm-9">
-                                        <textarea class="form-control text-white" id="comment" name="comment" value="<?= old_value('comment'); ?>" rows="10"></textarea>
+                                    <label class="col-sm-4 col-form-label"> Quiz Id</label>
+                                    <div class="col-sm-12">
+                                        <input type="hidden" class="form-control text-white" name="quiz_id" id="" value="<?= old_value('quiz_id', $row->quiz_id ?? ''); ?>">
+                                        <?= !empty($quiz->getError('quiz_id')) ? '<span class="text-danger text-left">' . formatFieldName($quiz->getError('quiz_id')) . '</span>' : ""; ?>
                                     </div>
                                 </div>
                             </div>
@@ -109,6 +47,181 @@
                             </div>
                             <div class="col-md-6">
                                 <button type="submit" class="btn btn-primary float-lg-end me-2">Save</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- All questions in a quiz -->
+<?php elseif ($action === 'questions') : ?>
+
+    <div class="row ">
+        <div class="col-12 grid-margin">
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="card-title">
+                        <?= $action; ?>
+                        <a href="#">
+                            <button type="button" class="btn btn-info float-end mx-1"><i class="mdi mdi-account-search"></i> Find</button>
+                        </a>
+                        <a href="<?= ROOT; ?>/admin/quiz/<?= URL(3); ?>">
+                            <button type="button" class="btn btn-danger float-end"><i class="mdi mdi-arrow-left"></i> Back</button>
+                        </a>
+                    </h2>
+                    <div class="table-responsive">
+                        <table class="table table-hover text-white">
+                            <thead>
+                                <tr>
+                                    <th class="text-white"> Questions </th>
+                                    <th class="text-white"> Correct Answer </th>
+                                    <th class="text-white"> More </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php if (!empty($data['rows'])) : ?>
+                                    <?php foreach ($data['rows'] as $row) : ?>
+                                        <tr>
+                                            <td> <?= esc($row->question); ?> </td>
+                                            <td> <?= esc($row->correct_answer); ?> </td>
+                                            <td>
+                                                <a href="<?= ROOT; ?>/admin/quiz/question-details/<?= $row->question_id; ?>" style="text-decoration: none;">
+                                                    <div class="badge badge-outline-info"><i class="mdi mdi-view-list"></i> Question details </div>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                <?php endif; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                        <?php $pager->display(); ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Single question details in a quiz -->
+<?php elseif ($action === 'question-details') : ?>
+
+    <div class="row">
+        <div class="col-12 grid-margin">
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="card-title">
+                        <?= ucfirst($action); ?>
+                    </h2>
+                    <form class="form-sample" method="post" enctype="multipart/form-data">
+                        <input type="hidden" name="quiz_id" id="" value="<?= old_value('quiz_id', $row_question[0]->quiz_id ?? ''); ?>">
+                        <p class="card-description"> Question info </p>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">Question</label>
+                                    <div class="col-sm-9">
+                                        <textarea class="form-control text-white" name="question" placeholder="Question"><?= esc($row_question[0]->question); ?></textarea>
+                                        <?= !empty($question->getError('question')) ? '<span class="text-danger text-left">' . formatFieldName($quiz->getError('question')) . '</span>' : ""; ?>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+                            <?php if (!empty($row_options)) : ?>
+                                <?php foreach ($row_options as $row) : ?>
+                                    <div class="col-xl-3">
+                                        <div class="form-group row">
+                                            <label class="col-md-3 col-form-label">Option</label>
+                                            <div class="col-md-9">
+                                                <input type="hidden" class="form-control text-white" name="option_id[]" placeholder="Option" value="<?= esc($row->option_id); ?>">
+                                                <textarea class="form-control text-white" name="option[]" placeholder="Option" value="<?= esc($row->question_option); ?>"><?= esc($row->question_option); ?></textarea>
+                                                <?= !empty($quiz->getError('option')) ? '<span class="text-danger text-left">' . formatFieldName($quiz->getError('option')) . '</span>' : ""; ?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                <a href="<?= ROOT; ?>/admin/quiz/<?= esc($row_question[0]->quiz_id); ?>">
+                                    <button type="button" class="btn btn-warning float-lg-end">Cancel</button>
+                                </a>
+                            </div>
+                            <div class="col-md-4">
+                                <a href="<?= ROOT; ?>/admin/quiz/delete-question/<?= URL(3); ?>">
+                                    <button type="button" class="btn btn-danger float-lg-end">Delete</button>
+                                </a>
+                            </div>
+                            <div class="col-md-4">
+                                <button type="submit" class="btn btn-primary float-lg-end me-2">Save</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<?php elseif ($action === 'delete-question') : ?>
+
+    <div class="row">
+        <div class="col-12 grid-margin">
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="card-title">
+                        <?= ucfirst($action); ?>
+                    </h2>
+                    <div class="alert alert-danger">
+                        <h3 class="text-center text-danger">Do you want to delete this question?</h3>
+                    </div>
+                    <form class="form-sample" method="post" enctype="multipart/form-data">
+                        <input type="hidden" name="quiz_id" id="" value="<?= old_value('quiz_id', $row_question[0]->quiz_id ?? ''); ?>">
+                        <p class="card-description"> Question info </p>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">Question</label>
+                                    <div class="col-sm-9">
+                                        <textarea class="form-control text-white" name="question" placeholder="Question"><?= esc($row_question[0]->question); ?></textarea>
+                                        <?= !empty($question->getError('question')) ? '<span class="text-danger text-left">' . formatFieldName($quiz->getError('question')) . '</span>' : ""; ?>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+                            <?php if (!empty($row_options)) : ?>
+                                <?php foreach ($row_options as $row) : ?>
+                                    <div class="col-xl-3">
+                                        <div class="form-group row">
+                                            <label class="col-md-3 col-form-label">Option</label>
+                                            <div class="col-md-9">
+                                                <input type="hidden" class="form-control text-white" name="option_id[]" placeholder="Option" value="<?= esc($row->option_id); ?>">
+                                                <textarea class="form-control text-white" name="option[]" placeholder="Option" value="<?= esc($row->question_option); ?>"><?= esc($row->question_option); ?></textarea>
+                                                <?= !empty($quiz->getError('option')) ? '<span class="text-danger text-left">' . formatFieldName($quiz->getError('option')) . '</span>' : ""; ?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <a href="<?= ROOT; ?>/admin/quiz/<?= esc($row_question[0]->quiz_id); ?>">
+                                    <button type="button" class="btn btn-danger float-start">Cancel</button>
+                                </a>
+                            </div>
+                            <div class="col-md-6">
+                                <button type="submit" class="btn btn-primary float-lg-end me-2">Delete</button>
                             </div>
                         </div>
                     </form>
@@ -336,13 +449,14 @@
                         </div>
                         <div class="row">
                             <div class="col-md-12">
-                                <a href="<?= ROOT; ?>/admin/quizzes" style="text-decoration: none;">
+                                <a href="<?= ROOT; ?>/admin/quizzes">
                                     <button type="button" class="btn btn-danger float-end">Cancel</button>
                                 </a>
-                                <button type="button" class="btn btn-primary mx-2 float-end">Update Questions</button>
-                                <button type="button" class="btn btn-info float-end">View Questions</button>
-                                <a href="<?= ROOT; ?>/admin/quiz/add-questions/<?= $data['row'][0]->quiz_id ?>" style="text-decoration: none;">
-                                    <button type="button" class="btn btn-success mx-2 float-end">Add Questions</button>
+                                <a href="<?= ROOT; ?>/admin/quiz/questions/<?= $data['row'][0]->quiz_id ?>">
+                                    <button type="button" class="btn btn-info mx-2 float-end">View Questions</button>
+                                </a>
+                                <a href="<?= ROOT; ?>/admin/quiz/add-questions/<?= $data['row'][0]->quiz_id ?>">
+                                    <button type="button" class="btn btn-success float-end">Add Questions</button>
                                 </a>
                             </div>
                         </div>

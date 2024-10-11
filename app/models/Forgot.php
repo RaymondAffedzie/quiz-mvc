@@ -195,11 +195,11 @@ class Forgot
 		$this->insert($data);
 
 		// send verification code to the user's email
-		$email = new Email;
+		$objEmail = new Email;
 		$subject = 'Password Reset: Verification Code';
 		$message = "You requested a password change. <br> Use this code to verify your account <b>{$data['code']}</b>. <br>The code will expire at <b>" . get_time($data['expire']) . "</b>.";
 
-		$email->send_message($email, $subject, $message);
+		$objEmail->send_message($email, $subject, $message);
 	}
 
 }

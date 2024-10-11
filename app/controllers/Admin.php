@@ -432,6 +432,12 @@ class Admin
 					message("A quiz with the same details already exist");
 				}
 			}
+		} elseif ($action === 'upload-questions') {
+
+			if ($req->posted()) {
+				$data['user']->add_multiple($_FILES, $_POST);
+			}
+			
 		} else {
 			// Fetch quizzes 
 			$limit = 25;
@@ -464,50 +470,106 @@ class Admin
 		$action = $data['action'] = URL(2) ?? 'Quiz';
 
 		$data['quiz'] = new \Model\Quiz;
-		$data['new_quiz'] = new \Model\Quiz;
 		$data['level'] = new \Model\Level;
 		$data['category'] = new \Model\Category;
 		$data['subject'] = new \Model\Subject;
+		$data['question'] = new \Model\Question;
+		$data['option'] = new \Model\Option;
 
 		$quiz_id = URL(3);
 
-		if ($action === 'add-questions') {
-		} elseif ($action === 'edit') {
+		if ($action === 'add-questions') {  // questions to a quiz
+
+			/** fetch quiz detials **/
+			$data['row'] = $data['quiz']->first(['quiz_id' => $quiz_id]);
+
+			if ($req->posted()) {
+				$data['question']->add_multiple($_FILES, $_POST);
+			}
+
+		} elseif ($action === 'questions') { // fetch all questions from a quiz
+
+			$limit = 10;
+			$pager = new Pager($limit);
+			$offset = $pager->offset;
+
+			$data['question']->limit = $limit;
+			$data['question']->offset = $offset;
+
+			$data['rows'] = $data['question']->where(['quiz_id' => $quiz_id]);		
+			$data['pager'] = $pager;
+
+		} elseif ($action === 'question-details') {  // Question detail
+
+			$question_id = URL(3);
+			$_POST['question_id'] = $question_id;
+
+			if ($req->posted()) {
+				$data['question']->edit($_POST);
+			}
+
+			/** fetch question and option detials **/
+			$data['row_question'] = $data['question']->where(['question_id' => $question_id]);		
+			$data['row_options'] = $data['option']->where(['question_id' => $question_id]);	
+
+		} elseif ($action === 'delete-question') {  // delete Question 
+
+			$question_id = URL(3);
+			$_POST['question_id'] = $question_id;
+
+			if ($req->posted()) {
+				$data['question']->del($_POST);
+			}
+
+			/** fetch question and option detials **/
+			$data['row_question'] = $data['question']->where(['question_id' => $question_id]);		
+			$data['row_options'] = $data['option']->where(['question_id' => $question_id]);		
+
+		} elseif ($action === 'edit') {  // edit a quiz 
 
 			if ($req->posted()) {
 
+				$data['new_quiz'] = new \Model\Quiz;
 				$data['new_quiz']->limit = 1;
 
+				/** finds existing quiz details  **/
 				$find = $_POST;
 				unset($find['quiz_id']);
 				$data['old'] = $data['new_quiz']->first($find);
 
+				/** update the quiz details if there is no matching details  **/
 				if ($data['old'] == false) {
 
 					$data['quiz']->edit($_POST);
 				} else {
+					/** no matching details found **/
 					message("A quiz with the same details already exist");
 				}
 			}
 
+			/** fetch quiz detials **/
 			$data['row'] = $data['quiz']->first(['quiz_id' => $quiz_id]);
 
 			$data['categories'] = $data['category']->allRecords();
 			$data['levels'] = $data['level']->allRecords();
 			$data['subjects'] = $data['subject']->allRecords();
+
 		} elseif ($action === 'delete') {
 
-			$data['categories'] = $data['category']->allRecords();
-			$data['levels'] = $data['level']->allRecords();
-			$data['subjects'] = $data['subject']->allRecords();
-
-			$data['row'] = $data['quiz']->first(['quiz_id' => $quiz_id]);
-
+			/** delete quiz details **/
 			if ($req->posted()) {
 				$data['quiz']->del($_POST);
 			}
+
+			$data['categories'] = $data['category']->allRecords();
+			$data['levels'] = $data['level']->allRecords();
+			$data['subjects'] = $data['subject']->allRecords();
+
+			$data['row'] = $data['quiz']->first(['quiz_id' => $quiz_id]);
+
 		} else {
 
+			/** fetch quiz information **/
 			$query = "SELECT c.category_name, l.level_name, s.subject_title, q.year_or_form, q.quiz_id FROM quizzes q INNER JOIN categories c ON c.category_id = q.category_id INNER JOIN levels l ON l.level_id = q.level_id INNER JOIN subjects s ON s.subject_id = q.subject_id WHERE q.quiz_id = :quiz_id";
 			$data['row'] = $data['quiz']->query($query, ['quiz_id' => $id]);
 		}

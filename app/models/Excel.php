@@ -24,22 +24,15 @@ class Excel
 		$file = $upload['import_excel'];
 		$filePath = $file['tmp_name'];
 		$fileExtension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
-
+		
 		/** Determine the file reader based on the file extension **/
 		$reader = null;
 		switch ($fileExtension) {
 			case 'csv':
 				$reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReader('Csv');
 				break;
-			case 'xls':
-				$reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReader('Xls');
-				break;
-			case 'xlsx':
-				$reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReader('Xlsx');
-				break;
 			default:
 				message("Unsupported file format.");
-				redirect('admin/users');
 				return;
 		}
 

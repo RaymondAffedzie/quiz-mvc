@@ -92,6 +92,9 @@ class User
 		'level_id' => [
 			'required',
 		],
+		'import_excel' => [
+			'excel',
+		],
 	];
 
 	protected $onUpdateValidationRules = [
@@ -303,6 +306,7 @@ class User
 		redirect('admin/users');
 	}
 
+	/** function for registering multiple users (excel file upload) */
 	public function add_multiple($upload, $data)
 	{
 		if ($this->validate($upload)) {
@@ -315,6 +319,7 @@ class User
 		}
 	}
 
+	/** function for processing multiple user registration **/
 	private function process_import_file_data($rows)
 	{
 		$errors = [];

@@ -89,8 +89,8 @@ trait Model
 		$keys = array_keys($data);
 
 		$query = "insert into $this->table (" . implode(",", $keys) . ") values (:" . implode(",:", $keys) . ")";
+		// echo $query .' <br><br> '. json_encode($data);die;
 		$this->query($query, $data);
-
 		return false;
 	}
 
@@ -218,12 +218,12 @@ trait Model
 							} else {
 								
 								$file = $data[$column];
-								$allowedExtensions = ['xls', 'xlsx', 'csv'];
+								$allowedExtensions = ['csv'];
 								$fileExtension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
 	
 								/** Checks for file extension **/
 								if (!in_array($fileExtension, $allowedExtensions)) {
-									$this->errors[$column] = "Invalid file type, only .xls, .xlsx, and .csv files are allowed.";
+									$this->errors[$column] = "Invalid file type, only .csv files are allowed.";
 								}
 
 								/** Checks for uploading error**/

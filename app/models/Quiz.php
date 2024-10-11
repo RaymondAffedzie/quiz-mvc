@@ -84,7 +84,8 @@ class Quiz
 		],
 	];
 
-	public function allRecords() {
+	public function allRecords()
+	{
 		return $this->findAll();
 	}
 
@@ -100,7 +101,7 @@ class Quiz
 			$data['subject_id'] = $data['subject_id'];
 			$data['category_id'] = $data['category_id'];
 			$data['year_or_form'] = $data['year_or_form'];
-			
+
 			$code = new Code();
 			$data['quiz_id'] = $code->uuid_v4();
 
@@ -113,7 +114,7 @@ class Quiz
 	public function edit($data)
 	{
 		if ($this->validate($data)) {
-			
+
 			$data['date_updated'] = date("Y-m-d H:i:s");
 			$data['level_id'] = $data['level_id'];
 			$data['subject_id'] = $data['subject_id'];
@@ -123,15 +124,48 @@ class Quiz
 			message("quiz account updated!");
 
 			redirect("admin/quiz/{$data['quiz_id']}");
-			
 		}
 	}
 
-	// function for admin to delete quiz record 
 	public function del($data)
 	{
-		$this->delete($data['quiz_id'], $this->primaryKey);
-		message("quiz deleted!");
-		redirect('admin/quizzes');
+		if ($this->validate($data)) {
+
+			$quiz_id = $data['quiz_id'];
+
+			// Get all questions related to this quiz
+			$questionModel = new Question();
+			$questions = $questionModel->findAll(['quiz_id' => $quiz_id]);
+
+			if ($questions && is_array($questions)) {
+				
+				$optionModel = new Option();
+				
+				// Loop through each question and delete its options and the question itself
+				foreach ($questions as $question) {
+					$question_id = $question->question_id; 
+
+					// Delete all options for this question
+					$options = $optionModel->findAll(['question_id' => $question_id]);
+
+					if ($options && is_array($options)) { 
+						$option_ids = array_column($options, 'option_id');
+						if (!empty($option_ids)) {
+							$optionModel->deleteBatch($option_ids); // Delete options using batch deletion
+						}
+					}
+
+					// delete the question after options have been deleted
+					$questionModel->delete($question_id, 'question_id');
+				}
+			}
+
+			// Delete the quiz after all related questions and options have been deleted
+			$this->delete($quiz_id, 'quiz_id');
+
+			// success message and redirect
+			message("Quiz and all related questions and options have been deleted!");
+			redirect("admin/quizzes");
+		}
 	}
 }
