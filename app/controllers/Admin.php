@@ -7,6 +7,7 @@ defined('ROOTPATH') or exit('Access Denied!');
 use \Core\Request;
 use \Core\Session;
 use \Core\Pager;
+use Model\Image;
 use Model\Model;
 
 /**
@@ -432,12 +433,6 @@ class Admin
 					message("A quiz with the same details already exist");
 				}
 			}
-		} elseif ($action === 'upload-questions') {
-
-			if ($req->posted()) {
-				$data['user']->add_multiple($_FILES, $_POST);
-			}
-			
 		} else {
 			// Fetch quizzes 
 			$limit = 25;
@@ -475,6 +470,7 @@ class Admin
 		$data['subject'] = new \Model\Subject;
 		$data['question'] = new \Model\Question;
 		$data['option'] = new \Model\Option;
+		$data['image'] = new \Model\Image;
 
 		$quiz_id = URL(3);
 
@@ -505,6 +501,11 @@ class Admin
 			$_POST['question_id'] = $question_id;
 
 			if ($req->posted()) {
+
+				// image upload script
+				$file = $req->files();
+				$_POST['file'] = $file;
+
 				$data['question']->edit($_POST);
 			}
 

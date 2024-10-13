@@ -144,14 +144,12 @@ trait Model
 
 	protected function getPrimaryKey()
 	{
-
 		return $this->primaryKey ?? 'id';
 	}
 
 	/** validate form data **/
 	public function validate($data)
 	{
-
 		$this->errors = [];
 
 		if (!empty($this->primaryKey) && !empty($data[$this->primaryKey])) {
@@ -173,7 +171,7 @@ trait Model
 						case 'match':
 							if ($column == 'confirm_password' && $data['new_password'] !== $data['confirm_password'])
 								$this->errors[$column] = "New password and Confirm Password do not match";
-							
+
 							break;
 
 						case 'accept':
@@ -186,13 +184,12 @@ trait Model
 
 							if (empty($data[$column]))
 								$this->errors[$column] = ucfirst($column) . " is required";
-							
+
 							break;
 
 						case 'password':
 
 							/** checks if user password match old password **/
-
 							$query = "SELECT password FROM users WHERE user_id = :user_id";
 							$row = $this->query($query, ['user_id' => $data['user_id']]);
 
@@ -209,21 +206,42 @@ trait Model
 
 							break;
 
+						case 'image':
+
+							// Image validation logic
+							if (isset($data[$column]['file']) && $data[$column]['file']['error'] === 0) {
+
+								$file = $data[$column]['file'];
+								$allowedExtensions = ['jpeg', 'jpg', 'png', 'webp'];
+								$fileExtension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+
+								// Check for file extension
+								if (!in_array($fileExtension, $allowedExtensions)) {
+									$this->errors[$column] = "Invalid file type. Only " . implode(", ", $allowedExtensions) . " files are allowed!";
+								}
+
+								// Check for file upload errors
+								if ($file['error'] !== UPLOAD_ERR_OK) {
+									$this->errors[$column] = "Error uploading the image file.";
+								}
+							}
+							
+							break;
+
 						case 'excel':
 
 							if (empty($data[$column]['name'])) {
 
 								$this->errors[$column] = "Select a file";
-
 							} else {
-								
+
 								$file = $data[$column];
 								$allowedExtensions = ['csv'];
 								$fileExtension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
-	
+
 								/** Checks for file extension **/
 								if (!in_array($fileExtension, $allowedExtensions)) {
-									$this->errors[$column] = "Invalid file type, only .csv files are allowed.";
+									$this->errors[$column] = "Invalid file type, only .csv file is allowed.";
 								}
 
 								/** Checks for uploading error**/
@@ -239,16 +257,15 @@ trait Model
 							if (empty($data[$column]['name'])) {
 
 								$this->errors[$column] = "Select a file";
-
 							} else {
-								
+
 								$file = $data[$column];
-								$allowedExtensions = ['doc', 'docx', 'ppt', 'pptx', 'pdf', 'txt'];
+								$allowedExtensions = ['pdf'];
 								$fileExtension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
-	
+
 								if (!in_array($fileExtension, $allowedExtensions)) {
 
-									$this->errors[$column] = "Invalid file type. Only .doc, .docx, .ppt, .pptx, .pdf, and .txt files are allowed.";
+									$this->errors[$column] = "Invalid file type, only  .pdf file is allowed.";
 								}
 							}
 

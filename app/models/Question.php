@@ -66,7 +66,6 @@ class Question
 	];
 
 	protected $onUpdateValidationRules = [
-
 		'question_id' => [
 			'required',
 		],
@@ -76,7 +75,11 @@ class Question
 		'quiz_id' => [
 			'required',
 		],
+		'file' => [
+			'image',
+		]
 	];
+
 
 	public function allRecords()
 	{
@@ -100,40 +103,66 @@ class Question
 	{
 		if ($this->validate($data)) {
 
-			// question data
+			// Check if an image file is uploaded and passed validation
+			if (!empty($data['file']['file']['name'])) {
+				$folder = 'uploads/';
+
+				// Ensure the uploads folder exists
+				if (!file_exists($folder)) {
+					mkdir($folder, 0777, true);
+					file_put_contents($folder . 'index.php', '');
+				}
+
+				$allowedFiles = ['image/jpeg', 'image/png', 'image/webp'];
+
+				// Check the file type
+				if (in_array($data['file']['file']['type'], $allowedFiles)) {
+					$filename = time() . '_' . basename($data['file']['file']['name']);
+					$filePath = $folder . $filename;
+
+					// Move the uploaded file to the folder
+					if (move_uploaded_file($data['file']['file']['tmp_name'], $filePath)) {
+
+						// Resize the image if necessary
+						$image = new \Model\Image;
+						$image->resize($filePath, 1080);
+
+						// Store the filename in the database
+						$data['image'] = $filePath;
+					}
+				}
+			}
+
+			// Set the date updated
 			$data['date_updated'] = date("Y-m-d H:i:s");
-			$data['quiz_id'] = $data['quiz_id'];
-			$data['question_id'] = $data['question_id'];
-			$data['question'] = $data['question'];
 
 			// Update the question
 			$this->update($data['question_id'], $data, $this->primaryKey);
 
 			// Update the options
 			$optionModel = new Option();
-
-			// Loop through each option and update it
 			foreach ($data['option_id'] as $index => $option_id) {
 				$optionData = [
 					'option_id' => $option_id,
 					'question_id' => $data['question_id'],
-					'question_option' => $data['option'][$index]
+					'question_option' => $data['option'][$index],
 				];
 
-				// Call the edit method from the Option class to update each option
+				// Update each option
 				$optionModel->edit($optionData);
 			}
 
-			// Display success message and redirect to the question details page
+			// Success message
 			message("Question and options updated!");
-			redirect("admin/quiz/question-details/{$data['question_id']}");
 		}
 	}
+
+
 
 	public function del($data)
 	{
 		if ($this->validate($data)) {
-			
+
 			$optionModel = new \Model\Option();
 
 			// delete multiple options at once using a batch query

@@ -104,7 +104,7 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-9">
-                            <a href="<?= ROOT; ?>/admin/quizzes/upload-questions" style="text-decoration: none;">
+                            <a href="<?= ROOT; ?>/admin/quizzes/add" style="text-decoration: none;">
                                 <div class="d-flex align-items-center align-self-start">
                                     <h3 class="mb-0 text-white">Add Multiple</h3>
                                     <p class="text-success ms-2 mb-0 font-weight-medium">+</p>
@@ -113,7 +113,7 @@
                         </div>
                         <div class="col-3">
                             <div class="icon icon-box-info">
-                                <a href="<?= ROOT; ?>/admin/quizzes/upload-questions">
+                                <a href="<?= ROOT; ?>/admin/quizzes/add">
                                     <span class="mdi mdi-arrow-top-right icon-item"></span>
                                 </a>
                             </div>

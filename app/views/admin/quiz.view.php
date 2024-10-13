@@ -118,34 +118,60 @@
                     <form class="form-sample" method="post" enctype="multipart/form-data">
                         <input type="hidden" name="quiz_id" id="" value="<?= old_value('quiz_id', $row_question[0]->quiz_id ?? ''); ?>">
                         <p class="card-description"> Question info </p>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group row">
-                                    <label class="col-sm-3 col-form-label">Question</label>
-                                    <div class="col-sm-9">
-                                        <textarea class="form-control text-white" name="question" placeholder="Question"><?= esc($row_question[0]->question); ?></textarea>
-                                        <?= !empty($question->getError('question')) ? '<span class="text-danger text-left">' . formatFieldName($quiz->getError('question')) . '</span>' : ""; ?>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
 
                         <div class="row">
-                            <?php if (!empty($row_options)) : ?>
-                                <?php foreach ($row_options as $row) : ?>
-                                    <div class="col-xl-3">
+                            <div class="col-lg-8">
+                                <div class="row">
+                                    <div class="col-lg-12">
                                         <div class="form-group row">
-                                            <label class="col-md-3 col-form-label">Option</label>
-                                            <div class="col-md-9">
-                                                <input type="hidden" class="form-control text-white" name="option_id[]" placeholder="Option" value="<?= esc($row->option_id); ?>">
-                                                <textarea class="form-control text-white" name="option[]" placeholder="Option" value="<?= esc($row->question_option); ?>"><?= esc($row->question_option); ?></textarea>
-                                                <?= !empty($quiz->getError('option')) ? '<span class="text-danger text-left">' . formatFieldName($quiz->getError('option')) . '</span>' : ""; ?>
+                                            <label class="col-lg-3 col-form-label">Question</label>
+                                            <div class="col-lg-9">
+                                                <textarea class="form-control text-white" name="question" placeholder="Question"><?= esc($row_question[0]->question); ?></textarea>
+                                                <?= !empty($question->getError('question')) ? '<span class="text-danger text-left">' . formatFieldName($quiz->getError('question')) . '</span>' : ""; ?>
                                             </div>
                                         </div>
                                     </div>
-                                <?php endforeach; ?>
-                            <?php endif; ?>
+
+                                </div>
+
+                                <div class="row">
+                                    <?php if (!empty($row_options)) : ?>
+                                        <?php foreach ($row_options as $row) : ?>
+                                            <div class="col-xxl-3">
+                                                <div class="form-group row">
+                                                    <label class="col-lg-3 col-form-label">Option</label>
+                                                    <div class="col-lg-9">
+                                                        <input type="hidden" class="form-control text-white" name="option_id[]" placeholder="Option" value="<?= esc($row->option_id); ?>">
+                                                        <textarea class="form-control text-white" name="option[]" placeholder="Option" value="<?= esc($row->question_option); ?>"><?= esc($row->question_option); ?></textarea>
+                                                        <?= !empty($question->getError('option')) ? '<span class="text-danger text-left">' . formatFieldName($question->getError('option')) . '</span>' : ""; ?>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        <?php endforeach; ?>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <label class="d-block">
+                                    <div class="form-group row">
+                                        <label class="col-lg-3 col-form-label" for="question-image">Select Image</label>
+                                        <div class="col-lg-9">
+                                            <input type="file" class="form-control text-white" name="file" id="question-image" accept="image/*" onchange="display_image(this.files[0])">
+                                        </div>
+                                        <?= !empty($question->getError('file')) ? '<span class="text-danger text-left">' . formatFieldName($question->getError('file')) . '</span>' : ""; ?>
+                                        <div>
+                                            <?php if ($row_question[0]->image == null) : ?>
+
+                                                <img src="<?= get_image(); ?>" alt="" class="js-image-preview img-thumbnail mx-auto d-block" style="cursor: pointer;">
+
+                                            <?php else : ?>
+
+                                                <img src="<?= get_image($image->getThumbnail($row_question[0]->image, 720, 480)); ?>" alt="" class="js-image-preview img-thumbnail mx-auto d-block" style="cursor: pointer;">
+
+                                            <?php endif; ?>
+                                        </div>
+                                </label>
+                            </div>
                         </div>
 
                         <div class="row">
@@ -221,7 +247,7 @@
                                 </a>
                             </div>
                             <div class="col-md-6">
-                                <button type="submit" class="btn btn-primary float-lg-end me-2">Delete</button>
+                                <button type="submit" class="btn btn-outline-danger float-lg-end me-2">Delete</button>
                             </div>
                         </div>
                     </form>
@@ -468,4 +494,16 @@
 
 <?php endif; ?>
 
+
+
+<script>
+    function display_image(file) {
+        let allowedFiles = ['image/jpeg', 'image/png', 'image/webp'];
+        if (!allowedFiles.includes(file.type)) {
+            alert("Invalid file type, only " + allowedFiles.toString().replaceAll("image/", "") + " files are allowed!");
+            return;
+        }
+        document.querySelector(".js-image-preview").src = URL.createObjectURL(file);
+    }
+</script>
 <?php $this->view("admin/admin.footer"); ?>

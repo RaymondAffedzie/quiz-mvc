@@ -3,4 +3,4 @@
 /.vscode
 /app/thunder
 /app/migrations
-
+/public/uploads

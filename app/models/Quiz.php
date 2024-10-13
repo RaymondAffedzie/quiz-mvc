@@ -135,7 +135,7 @@ class Quiz
 
 			// Get all questions related to this quiz
 			$questionModel = new Question();
-			$questions = $questionModel->findAll(['quiz_id' => $quiz_id]);
+			$questions = $questionModel->where(['quiz_id' => $quiz_id]);
 
 			if ($questions && is_array($questions)) {
 				
@@ -143,13 +143,16 @@ class Quiz
 				
 				// Loop through each question and delete its options and the question itself
 				foreach ($questions as $question) {
+					
 					$question_id = $question->question_id; 
 
 					// Delete all options for this question
-					$options = $optionModel->findAll(['question_id' => $question_id]);
+					$options = $optionModel->where(['question_id' => $question_id]);
 
 					if ($options && is_array($options)) { 
+
 						$option_ids = array_column($options, 'option_id');
+
 						if (!empty($option_ids)) {
 							$optionModel->deleteBatch($option_ids); // Delete options using batch deletion
 						}
