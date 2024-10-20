@@ -190,7 +190,7 @@ function formatFieldName($field)
 /** returns a user readable date format **/
 function get_date($date)
 {
-    return date("jS M, Y", strtotime($date));
+    return date("jS F, Y", strtotime($date));
 }
 
 /** returns a user readable time format **/

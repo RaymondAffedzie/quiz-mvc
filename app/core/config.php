@@ -23,7 +23,7 @@ if((empty($_SERVER['SERVER_NAME']) && php_sapi_name() == 'cli') || (!empty($_SER
 	define('DBPASS', '');
 	define('DBDRIVER', '');
 
-	define('ROOT', 'https://www.yourwebsite.com');
+	define('ROOT', 'https://www.thiswebsite.com');
 
 }
 
@@ -34,7 +34,7 @@ define('MAIL_USERNAME', "irbbawebsdev@gmail.com");
 define('MAIL_PASSWORD', "hckfnkwvocysaure");
 
 /** Application configuration and metadata **/
-define('APP_NAME', "irbba Devs");
+define('APP_NAME', "Irbba Devs");
 define('APP_DESC', "Best student centered quiz application for Ghanaian SHS, TVET, JHS and Primary school students");
 define('AUTHOR', "Raymond Affedzie");
 define('AUTHOR_EMAIL', "raymondaffedzie@gmail.com");

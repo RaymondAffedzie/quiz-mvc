@@ -395,6 +395,44 @@ class Admin
 		$this->view('admin/subject', $data);
 	}
 
+	public function questions()
+	{
+		$ses = new Session;
+
+		if (!$ses->is_logged_in()) {
+			redirect('login');
+		} elseif ($ses->is_logged_in() && $ses->user('role') !== 'admin') {
+			redirect('home');
+		}
+
+		$action = $data['action'] = URL(2) ?? 'Questions';
+
+		$data['question'] = new \Model\Question;
+		$req = new Request;
+
+		// Add Question
+		if ($action === 'add') {
+			if ($req->posted()) {
+				// $data['subject']->add($_POST);
+			}
+		} else {
+			// Fetch Questions 
+			$limit = 5;
+			$pager = new Pager($limit);
+			$offset = $pager->offset;
+
+			$data['question']->limit = $limit;
+			$data['question']->offset = $offset;
+
+			$data['rows'] = $data['question']->findAll();
+
+			$data['pager'] = $pager;
+		}
+
+		$this->view('admin/questions', $data);
+	}
+
+
 	public function quizzes()
 	{
 		$ses = new Session;
@@ -502,7 +540,7 @@ class Admin
 
 			if ($req->posted()) {
 
-				// image upload script
+				// add uploaded file to the post 
 				$file = $req->files();
 				$_POST['file'] = $file;
 

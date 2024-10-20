@@ -21,10 +21,10 @@
                         <div class="row">
                             <div class="col-md-8">
                                 <div class="form-group row">
-                                    <label class="col-sm-4 col-form-label">File</label>
+                                    <label class="col-sm-4 col-form-label">CSV File</label>
                                     <div class="col-sm-12">
-                                        <input type="file" class="form-control text-white" name="import_excel" value="<?= old_value('import_excel'); ?>" placeholder="Select excel (.csv) file" autofocus />
-                                        <?= !empty($question->getError('import_excel')) ? '<span class="text-danger text-left">' . formatFieldName($question->getError('import_excel')) . '</span>' : ''; ?>
+                                        <input type="file" class="form-control text-white" name="file" accept="excel/csv" value="<?= old_value('file'); ?>" placeholder="Select excel (.csv) file" autofocus />
+                                        <?= !empty($question->getError('file')) ? '<span class="text-danger text-left">' . formatFieldName($question->getError('file')) . '</span>' : ''; ?>
                                     </div>
                                 </div>
                             </div>

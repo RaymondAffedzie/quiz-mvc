@@ -51,7 +51,7 @@ $section = URL(1) ?? 'Dashboard';
         <!-- partial:partials/_sidebar.html -->
         <nav class="sidebar sidebar-offcanvas" id="sidebar">
             <div class="sidebar-brand-wrapper d-none d-lg-flex align-items-center justify-content-center fixed-top">
-                <a class="sidebar-brand brand-logo" href="<?= ROOT; ?>" style="text-decoration: none; text-transform:lowercase; color:#009da6; font-family: Sacramento;">
+                <a class="sidebar-brand brand-logo" href="<?= ROOT; ?>" style="text-decoration: none; color:#009da6; font-family: Sacramento;">
                     <?= ucwords(APP_NAME); ?>
                 </a>
             </div>
