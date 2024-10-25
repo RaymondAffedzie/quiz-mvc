@@ -62,6 +62,7 @@
                     <li><a href="<?=ROOT;?>">Home<br></a></li>
                     <li><a href="<?=ROOT;?>/about">About</a></li>
                     <li><a href="<?=ROOT;?>/contact">Contact</a></li>
+                    <li><a href="<?=ROOT;?>/login">Login</a></li>
                 </ul>
                 <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
             </nav>

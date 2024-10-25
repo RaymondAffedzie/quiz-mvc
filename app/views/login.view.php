@@ -19,15 +19,25 @@
     <meta name="twitter:description" content="Improve your performance with our interactive past question quiz application">
     <meta name="twitter:image" content="<?= ROOT; ?>/assests/user/images/content-image.jpg">
 
-    <title>Login-<?= APP_NAME; ?></title>
+    <title>Login | <?= APP_NAME; ?></title>
+
     <!-- plugins:css -->
     <link rel="stylesheet" href="<?= ROOT; ?>/assets/admin/vendors/mdi/css/materialdesignicons.min.css" />
     <link rel="stylesheet" href="<?= ROOT; ?>/assets/admin/vendors/css/vendor.bundle.base.css" />
+    <link rel="stylesheet" href="<?= ROOT; ?>/assets/fonts/fonts.css" />
     <!-- endplugin:css -->
+
     <!-- Layout styles -->
     <link rel="stylesheet" href="<?= ROOT; ?>/assets/admin/css/style.css" />
     <!-- End layout styles -->
-    <link rel="shortcut icon" href="<?= ROOT; ?>/assets/admin/images/favicon.png" />
+
+    <!-- favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="<?= ROOT; ?>/assets/favicon/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="<?= ROOT; ?>/assets/favicon/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="<?= ROOT; ?>/assets/favicon/favicon-16x16.png" />
+    <link rel="manifest" href="<?= ROOT; ?>/assets/favicon/site.webmanifest" />
+    <!-- endfavicon -->
+
 </head>
 
 <body>
@@ -37,8 +47,13 @@
             <div class="row w-100 m-0">
                 <div class="content-wrapper full-page-wrapper d-flex align-items-center auth login-bg">
                     <div class="card col-sm-10 col-md-8 col-lg-6 col-xl-4 mx-auto">
-                        <div class="card-body px-5 py-5">
-                            <h3 class="card-title text-left mb-3">Login</h3>
+                        <div class="card-body px-5 py-3">
+                            <div class="row">
+                                <a class="brand-logo text-center h2" href="<?= ROOT; ?>" style="text-decoration: none; color:#009da6; font-family: Sacramento;">
+                                    <?= ucwords(APP_NAME); ?>
+                                </a>
+                            </div>
+                            <h3 class="card-title text-center mb-3">Login</h3>
                             <form method="post">
                                 <div class="form-group">
                                     <label for="email">Email *</label>

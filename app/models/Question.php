@@ -46,7 +46,7 @@ class Question
 
 	protected $onInsertValidationRules = [
 
-		'import_excel' => [
+		'file' => [
 			'excel',
 		],
 		'question_id' => [
@@ -57,7 +57,6 @@ class Question
 			'required',
 		],
 		'question' => [
-			'unique',
 			'required',
 		],
 		'correct_answer' => [
@@ -87,12 +86,14 @@ class Question
 	}
 
 	/** funtion for adding questions **/
-	public function add_multiple($upload, $data)
+	public function add_multiple($data)
 	{
-		if ($this->validate($upload)) {
+		if ($this->validate($data)) {
 			$excel = new Excel;
-			$excel_data = $excel->import_file($upload, $data);
-			$this->process_import_file_data($excel_data, $data['quiz_id']);
+
+			$excel_data = $excel->extract_excel_data($data['file']);
+
+			$this->process_excel_data($excel_data, $data['quiz_id']);
 
 			redirect("admin/quiz/{$data['quiz_id']}");
 		}
@@ -157,8 +158,6 @@ class Question
 		}
 	}
 
-
-
 	public function del($data)
 	{
 		if ($this->validate($data)) {
@@ -183,7 +182,7 @@ class Question
 	}
 
 	/** function for processing multiple questions insertion **/
-	private function process_import_file_data($rows, $quiz_id)
+	private function process_excel_data($rows, $quiz_id)
 	{
 		$errors = [];
 		$successCount = 0;
@@ -202,7 +201,7 @@ class Question
 				'quiz_id' => $quiz_id,
 				'question' => ucfirst($row[0]),
 				'correct_answer' => ucfirst($row[1]),
-				'comment' => $row[6],
+				'comment' => ucfirst($row[6]),
 				'date_created' => date("Y-m-d H:i:s"),
 				'date_updated' => date("Y-m-d H:i:s")
 			];
@@ -257,6 +256,7 @@ class Question
 
 				$formattedErrors = array_map(function ($error) {
 					return formatFieldName($error);
+					
 				}, $errorArray);
 
 				$errorMessages .= "Error in row $row: " . implode(", ", $formattedErrors) . ". ";

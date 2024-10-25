@@ -95,7 +95,7 @@
             </div>
         </div>
     </div>
-    
+
 <?php else : ?>
 
     <div class="row">
@@ -104,22 +104,18 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-9">
-                            <a href="<?= ROOT; ?>/admin/quizzes/add" style="text-decoration: none;">
-                                <div class="d-flex align-items-center align-self-start">
-                                    <h3 class="mb-0 text-white">Add Multiple</h3>
-                                    <p class="text-success ms-2 mb-0 font-weight-medium">+</p>
-                                </div>
-                            </a>
+                            <div class="d-flex align-items-center align-self-start">
+                                <h3 class="mb-0">Growth</h3>
+                                <p class="text-info ms-2 mb-0 font-weight-medium">+3.5%</p>
+                            </div>
                         </div>
                         <div class="col-3">
                             <div class="icon icon-box-info">
-                                <a href="<?= ROOT; ?>/admin/quizzes/add">
-                                    <span class="mdi mdi-arrow-top-right icon-item"></span>
-                                </a>
+                                <span class="mdi mdi-arrow-top-right icon-item"></span>
                             </div>
                         </div>
                     </div>
-                    <h6 class="text-muted font-weight-normal">Excel file</h6>
+                    <h6 class="text-muted font-weight-normal">Potential growth</h6>
                 </div>
             </div>
         </div>

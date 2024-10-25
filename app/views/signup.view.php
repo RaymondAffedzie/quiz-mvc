@@ -21,15 +21,24 @@
 	<meta nid="" ame="twitter:description" content="Improve your performance with our interactive past question quiz application" />
 	<meta nid="" ame="twitter:image" content="<?= ROOT; ?>/assests/user/images/content-image.jpg" />
 
-	<title>SignUp-<?= APP_NAME; ?></title>
+	<title>SignUp | <?= APP_NAME; ?></title>
+	
 	<!-- plugins:css -->
 	<link rel="stylesheet" href="<?= ROOT; ?>/assets/admin/vendors/mdi/css/materialdesignicons.min.css" />
 	<link rel="stylesheet" href="<?= ROOT; ?>/assets/admin/vendors/css/vendor.bundle.base.css" />
 	<!-- endplugin:css -->
+
 	<!-- Layout styles -->
 	<link rel="stylesheet" href="<?= ROOT; ?>/assets/admin/css/style.css" />
 	<!-- End layout styles -->
-	<link rel="shortcut icon" href="<?= ROOT; ?>/assets/admin/images/favicon.png" />
+
+	<!-- favicon -->
+	<link rel="apple-touch-icon" sizes="180x180" href="<?= ROOT; ?>/assets/favicon/apple-touch-icon.png" />
+	<link rel="icon" type="image/png" sizes="32x32" href="<?= ROOT; ?>/assets/favicon/favicon-32x32.png" />
+	<link rel="icon" type="image/png" sizes="16x16" href="<?= ROOT; ?>/assets/favicon/favicon-16x16.png" />
+	<link rel="manifest" href="<?= ROOT; ?>/assets/favicon/site.webmanifest" />
+	<!-- endfavicon -->
+	 
 </head>
 
 <body>
@@ -47,7 +56,7 @@
 									<div class="col-lg-6">
 										<div class="form-group">
 											<label for="first_name">First name</label>
-											<input id="first_name" value="<?= old_value('first_name'); ?>" name="first_name" type="text" class="form-control p_input text-white" autofocus/>
+											<input id="first_name" value="<?= old_value('first_name'); ?>" name="first_name" type="text" class="form-control p_input text-white" autofocus />
 											<?= !empty($user->getError('first_name')) ? '<span class="text-danger text-left">' . formatFieldName($user->getError('first_name')) . '</span>' : ""; ?>
 										</div>
 										<div class="form-group">

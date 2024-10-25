@@ -6,7 +6,9 @@
 ?>
 <?php $this->view("admin/admin.header"); ?>
 
-<?php if ($action === 'add') : ?>
+<!-- Single question details in a quiz -->
+<?php if ($action === 'question') : ?>
+
 
 <?php else : ?>
 
@@ -18,18 +20,16 @@
                         <!-- Search Bar -->
                         <div class="row mb-3">
                             <div class="col-md-2">
-                                <?= $action; ?>
+                                <h3><?= $action; ?></h3>
                             </div>
                             <div class="col-md-4">
-                                <div class="col-md-3">
-                                    <select id="recordSelect" class="form-control text-white" onchange="changeRecordsPerPage()">
-                                        <option value="">Show</option>
-                                        <option value="10">Show 10</option>
-                                        <option value="25">Show 25</option>
-                                        <option value="50">Show 50</option>
-                                        <option value="all">Show All</option>
-                                    </select>
-                                </div>
+                                <select id="recordSelect" class="form-control text-white" onchange="changeRecordsPerPage()">
+                                    <option value="">Show</option>
+                                    <option value="10">Show 10</option>
+                                    <option value="25">Show 25</option>
+                                    <option value="50">Show 50</option>
+                                    <option value="all">Show All</option>
+                                </select>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">

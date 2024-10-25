@@ -7,8 +7,8 @@ SET time_zone = "+00:00";
 --
 -- Database: `quiz_app`
 --
-CREATE DATABASE IF NOT EXISTS `quiz_app` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-USE `quiz_app`;
+CREATE DATABASE IF NOT EXISTS `irbba_devs_quiz_system` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE `irbba_devs_quiz_system`;
 
 -- --------------------------------------------------------
 
@@ -271,8 +271,8 @@ TRUNCATE TABLE `users`;
 -- Users password ***incorrect***
 --
 INSERT INTO `users` (`user_id`, `first_name`, `last_name`, `contact`, `email`, `password`, `role`, `school_name`, `level_id`, `date_created`, `date_updated`, `terms`) VALUES
-('03a470f0-3dff-45af-b482-78e25e492c57', 'Irbba', 'Devs', '0200000001', 'admin@quiz.com', '$2y$10$MkFj.CDNZYskfUNIVaXOhOYXLXpqLqadTEZ8eTYbNI9GbIFq0N.GK', 'admin', 'Best Engineers School', '4d09acc5-7e4c-4919-ad13-e0aa7098bc4a', '2024-09-05 18:06:03', '2024-09-06 21:20:34', NULL),
-('42423003-4586-438d-8594-de23ae48dc81', 'Ray', 'Berth', '024000002', 'rayberth@quiz.com', '$2y$10$9OgVVcUc3xoQI7SKXey/PO3VPDNYAkj50frBiQ1g2BAFn/2KF/Bje', 'student', 'Software Developers Academy', '4d09acc5-7e4c-4919-ad13-e0aa7098bc4a', '2024-07-31 03:26:05', '2024-09-06 21:20:15', NULL);
+('03a470f0-3dff-45af-b482-78e25e492c57', 'Irbba', 'Devs', '0200000001', 'admin@irbbadevsquizsystem.com', '$2y$10$MkFj.CDNZYskfUNIVaXOhOYXLXpqLqadTEZ8eTYbNI9GbIFq0N.GK', 'admin', 'Best Engineers School', '4d09acc5-7e4c-4919-ad13-e0aa7098bc4a', '2024-09-05 18:06:03', '2024-09-06 21:20:34', NULL),
+('42423003-4586-438d-8594-de23ae48dc81', 'Raymond Berth', 'Affedzie', '024000002', 'raymondaffedzie@gmail.com', '$2y$10$9OgVVcUc3xoQI7SKXey/PO3VPDNYAkj50frBiQ1g2BAFn/2KF/Bje', 'student', 'Software Developers Academy', '4d09acc5-7e4c-4919-ad13-e0aa7098bc4a', '2024-07-31 03:26:05', '2024-09-06 21:20:15', NULL);
 
 --
 -- Users password ***incorrect***

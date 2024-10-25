@@ -225,28 +225,25 @@ trait Model
 									$this->errors[$column] = "Error uploading the image file.";
 								}
 							}
-							
+
 							break;
 
 						case 'excel':
 
-							if (empty($data[$column]['name'])) {
+							if (isset($data[$column]['file']) && $data[$column]['file']['error'] === 0) {
 
-								$this->errors[$column] = "Select a file";
-							} else {
-
-								$file = $data[$column];
+								$file = $data[$column]['file'];
 								$allowedExtensions = ['csv'];
 								$fileExtension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
 
-								/** Checks for file extension **/
+								// Check for file extension
 								if (!in_array($fileExtension, $allowedExtensions)) {
-									$this->errors[$column] = "Invalid file type, only .csv file is allowed.";
+									$this->errors[$column] = "Invalid file type. Only " . implode(", ", $allowedExtensions) . " files are allowed!";
 								}
 
-								/** Checks for uploading error**/
+								// Check for file upload errors
 								if ($file['error'] !== UPLOAD_ERR_OK) {
-									$this->errors[$column] = "Error uploading the file.";
+									$this->errors[$column] = "Error uploading the image file.";
 								}
 							}
 

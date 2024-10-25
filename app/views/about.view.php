@@ -21,9 +21,9 @@
 						knowledge and exam readiness. At Irbba Devs Quiz System, we
 						are committed to giving students the confidence and tools they
 						need to achieve academic success. Join us today and be part
-						of the future of exam preparation—designed for your success!
+						of the future of exam preparation designed for your success!
 					</p>
-					<a href="" class="cta-btn">Read more<br></a>
+					<!-- <a href="" class="cta-btn">Read more<br></a> -->
 				</div>
 			</div>
 		</div>
@@ -44,11 +44,11 @@
 
 	<div class="container" data-aos="fade-up" data-aos-delay="100">
 
-		<div class="row gy-4 justify-content-center">
-			<div class="col-lg-4">
+		<div class="row d-flex align-items-center gy-4 justify-content-center">
+			<div class="col-lg-4 flex-shrink-0">
 				<img src="<?= ROOT; ?>/assets/client/img/about-us.jpg" class="img-fluid" alt="">
 			</div>
-			<div class="col-lg-5 content">
+			<div class="col-lg-5 content flex-grow-1 ms-3">
 				<h2>Mission</h2>
 				<p class="fst-italic py-3">
 					Our goal is to offer students accessible, high-quality quizzes that promote

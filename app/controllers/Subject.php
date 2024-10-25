@@ -20,17 +20,10 @@ class Home
 
 		$data['quiz']->limit = $limit;
 
-		$query = "SELECT DISTINCT 
-		l.level_id, l.level_name, l.level_abbreviation, c.category_id, c.category_name, q.year_or_form 
-		FROM quizzes q 
-		INNER JOIN categories c 
-		ON c.category_id = q.category_id 
-		INNER JOIN levels l 
-		ON l.level_id = q.level_id 
-		ORDER BY 
-		c.category_name ASC, 
-		l.level_name ASC, 
-		q.year_or_form DESC";
+		$query = "SELECT s.subject_name, s.subject_id, q.quiz_id 
+        FROM quizzes q
+        INNER JOIN subjects s ON q.subject_id = s.subject_id
+        WHERE q.level_id = :level_id AND q.year_or_form = :year_or_form";
 
 		$data['rows'] = $data['quiz']->query($query);
 

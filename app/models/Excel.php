@@ -19,9 +19,9 @@ class Excel
 
 	public $errors = [];
 
-	public function import_file($upload, $data)
+	public function extract_excel_data($data)
 	{
-		$file = $upload['import_excel'];
+		$file = $data['file'];
 		$filePath = $file['tmp_name'];
 		$fileExtension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
 		

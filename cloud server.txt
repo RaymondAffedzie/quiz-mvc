@@ -1,0 +1,6 @@
+
+
+srvr = 'localhost'
+user = 'irbbadevs'
+pswd = 'incorrect'
+dtbs = 'irbba_devs_quiz_system'

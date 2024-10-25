@@ -44,13 +44,10 @@ class Admin
 		$action = $data['action'] = URL(2) ?? 'user';
 
 		$data['user'] = new \Model\User;
-		$data['level'] = new \Model\Level;
 
-		
 		if ($action === 'edit') {
-			
+
 			$data['row'] = $data['user']->first(['user_id' => $ses->user('user_id')]);
-			$data['levels'] = $data['level']->allRecords();
 
 			$req = new Request;
 			if ($req->posted()) {
@@ -99,13 +96,11 @@ class Admin
 			if ($req->posted()) {
 				$data['user']->add($_POST);
 			}
-
 		} elseif ($action === 'upload-file') {
 
 			if ($req->posted()) {
 				$data['user']->add_multiple($_FILES, $_POST);
 			}
-			
 		} else {
 			// Fetch users 
 			$limit = 25;
@@ -341,7 +336,7 @@ class Admin
 			}
 		} else {
 			// Fetch Subjects 
-			$limit = 5;
+			$limit = 25;
 			$pager = new Pager($limit);
 			$offset = $pager->offset;
 
@@ -412,12 +407,12 @@ class Admin
 
 		// Add Question
 		if ($action === 'add') {
-			if ($req->posted()) {
-				// $data['subject']->add($_POST);
-			}
+			// if ($req->posted()) {
+			// 	$data['subject']->add($_POST);
+			// }
 		} else {
 			// Fetch Questions 
-			$limit = 5;
+			$limit = 20;
 			$pager = new Pager($limit);
 			$offset = $pager->offset;
 
@@ -430,6 +425,29 @@ class Admin
 		}
 
 		$this->view('admin/questions', $data);
+	}
+
+	public function question($id = null)
+	{
+		$ses = new Session;
+
+		if (!$ses->is_logged_in()) {
+			redirect('login');
+		} elseif ($ses->is_logged_in() && $ses->user('role') !== 'admin') {
+			redirect('home');
+		}
+
+		$req = new Request;
+		$action = $data['action'] = URL(2) ?? 'question';
+
+		$data['question'] = new \Model\Question;
+		$data['option'] = new \Model\Option;
+		$data['image'] = new \Model\Image;
+
+		$data['row'] = $data['question']->first(['question_id' => $id]);
+		$data['options'] = $data['option']->where(['question_id' => $id]);
+
+		$this->view('admin/question', $data);
 	}
 
 
@@ -518,19 +536,25 @@ class Admin
 			$data['row'] = $data['quiz']->first(['quiz_id' => $quiz_id]);
 
 			if ($req->posted()) {
-				$data['question']->add_multiple($_FILES, $_POST);
+
+				// add uploaded file to the post 
+				$file = $req->files();
+				$_POST['file'] = $file;
+
+				$data['question']->add_multiple($_POST);
+				// $data['question']->add_multiple($_FILES, $_POST);
 			}
 
 		} elseif ($action === 'questions') { // fetch all questions from a quiz
 
-			$limit = 10;
+			$limit = 40;
 			$pager = new Pager($limit);
 			$offset = $pager->offset;
 
 			$data['question']->limit = $limit;
 			$data['question']->offset = $offset;
 
-			$data['rows'] = $data['question']->where(['quiz_id' => $quiz_id]);		
+			$data['rows'] = $data['question']->where(['quiz_id' => $quiz_id]);
 			$data['pager'] = $pager;
 
 		} elseif ($action === 'question-details') {  // Question detail
@@ -548,8 +572,8 @@ class Admin
 			}
 
 			/** fetch question and option detials **/
-			$data['row_question'] = $data['question']->where(['question_id' => $question_id]);		
-			$data['row_options'] = $data['option']->where(['question_id' => $question_id]);	
+			$data['row_question'] = $data['question']->where(['question_id' => $question_id]);
+			$data['row_options'] = $data['option']->where(['question_id' => $question_id]);
 
 		} elseif ($action === 'delete-question') {  // delete Question 
 
@@ -561,8 +585,8 @@ class Admin
 			}
 
 			/** fetch question and option detials **/
-			$data['row_question'] = $data['question']->where(['question_id' => $question_id]);		
-			$data['row_options'] = $data['option']->where(['question_id' => $question_id]);		
+			$data['row_question'] = $data['question']->where(['question_id' => $question_id]);
+			$data['row_options'] = $data['option']->where(['question_id' => $question_id]);
 
 		} elseif ($action === 'edit') {  // edit a quiz 
 
@@ -611,8 +635,10 @@ class Admin
 			/** fetch quiz information **/
 			$query = "SELECT c.category_name, l.level_name, s.subject_title, q.year_or_form, q.quiz_id FROM quizzes q INNER JOIN categories c ON c.category_id = q.category_id INNER JOIN levels l ON l.level_id = q.level_id INNER JOIN subjects s ON s.subject_id = q.subject_id WHERE q.quiz_id = :quiz_id";
 			$data['row'] = $data['quiz']->query($query, ['quiz_id' => $id]);
+
 		}
 
 		$this->view('admin/quiz', $data);
 	}
+
 }
