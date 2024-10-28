@@ -17,13 +17,13 @@ if((empty($_SERVER['SERVER_NAME']) && php_sapi_name() == 'cli') || (!empty($_SER
 }else
 {
 	/** live database config **/
-	define('DBNAME', 'mvc_db');
+	define('DBNAME', 'irbba_devs_quiz_system');
 	define('DBHOST', 'localhost');
-	define('DBUSER', 'root');
-	define('DBPASS', '');
+	define('DBUSER', 'irbbadevs');
+	define('DBPASS', 'incorrect');
 	define('DBDRIVER', '');
 
-	define('ROOT', 'https://www.thiswebsite.com');
+	define('ROOT', 'ec2-3-8-131-201.eu-west-2.compute.amazonaws.com');
 
 }
 

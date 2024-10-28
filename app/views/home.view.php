@@ -20,7 +20,7 @@
 			echo htmlspecialchars($level_name);
 			?>
 		</h2>
-		<p>What do you want to answer? </p>
+		<p><?= htmlspecialchars($row->level_certificate); ?></p>
 	</div>
 	<!-- End Section Title -->
 
@@ -32,15 +32,15 @@
 						<div class="col-xl-3 col-lg-6 d-flex flex-sm-column flex-fill" data-aos="fade-up" data-aos-delay="100">
 							<div class="service-item position-relative">
 								<h4>
-									<a href="subjects.php?level_id=<?php echo htmlspecialchars($row->level_id); ?>&year_or_form=<?php echo htmlspecialchars($row->year_or_form); ?>" class="stretched-link"></a>
+									<a href="" class="stretched-link"><?= htmlspecialchars($row->level_certificate); ?></a>
 								</h4>
-								<p><?= htmlspecialchars($row->year_or_form) . " " . htmlspecialchars($row->category_name); ?></p>
+								<p><?= htmlspecialchars($row->year_or_form) . " " .  htmlspecialchars($row->level_abbreviation) . "  " . htmlspecialchars($row->category_name); ?></p>
 							</div>
 						</div>
 					<?php endif; ?>
 				<?php endforeach; ?>
 			<?php else: ?>
-				<div class="col-xl-3 col-lg-6 d-flex flex-sm-column flex-fill" data-aos="fade-up" data-aos-delay="100">
+				<div class="col-xl-3 col-lg-6 flex-sm-column d-flex" data-aos="fade-up" data-aos-delay="100">
 					<div class="service-item position-relative">
 						<p>No JHS past questions available at the moment.</p>
 					</div>
@@ -72,7 +72,7 @@
 			echo htmlspecialchars($level_name);
 			?>
 		</h2>
-		<p>What do you want to answer? </p>
+		<p><?= htmlspecialchars($row->level_certificate); ?></p>
 	</div>
 	<!-- End Section Title -->
 
@@ -84,7 +84,7 @@
 						<div class="col-xl-3 col-lg-6 d-flex flex-sm-column flex-fill" data-aos="fade-up" data-aos-delay="100">
 							<div class="service-item position-relative">
 								<h4>
-									<a href="subjects.php?level_id=<?php echo htmlspecialchars($row->level_id); ?>&year_or_form=<?php echo htmlspecialchars($row->year_or_form); ?>" class="stretched-link"></a>
+									<a href="" class="stretched-link"><?= htmlspecialchars($row->level_certificate); ?></a>
 								</h4>
 								<p><?= htmlspecialchars($row->year_or_form) . " " . htmlspecialchars($row->category_name); ?></p>
 							</div>
@@ -124,7 +124,7 @@
 			echo htmlspecialchars($level_name);
 			?>
 		</h2>
-		<p>What do you want to answer? </p>
+		<p><?= htmlspecialchars($row->level_certificate); ?></p>
 	</div>
 	<!-- End Section Title -->
 
@@ -136,9 +136,9 @@
 						<div class="col-xl-3 col-lg-6 d-flex flex-sm-column flex-fill" data-aos="fade-up" data-aos-delay="100">
 							<div class="service-item position-relative">
 								<h4>
-									<a href="subjects.php?level_id=<?php echo htmlspecialchars($row->level_id); ?>&year_or_form=<?php echo htmlspecialchars($row->year_or_form); ?>" class="stretched-link"></a>
+									<a href="" class="stretched-link"><?= htmlspecialchars($row->level_certificate); ?></a>
 								</h4>
-								<p><?= htmlspecialchars($row->year_or_form) . " " . htmlspecialchars($row->category_name); ?></p>
+								<p><?= htmlspecialchars($row->year_or_form) . " " .  htmlspecialchars($row->level_abbreviation) . "  " . htmlspecialchars($row->category_name); ?></p>
 							</div>
 						</div>
 					<?php endif; ?>

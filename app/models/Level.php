@@ -18,6 +18,7 @@ class Level
 
 	protected $allowedColumns = [
 		'level_abbreviation',
+		'level_certificate',
 		'level_name',
 		'level_id',
 		'date_created',

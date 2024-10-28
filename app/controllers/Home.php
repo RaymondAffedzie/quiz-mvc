@@ -21,7 +21,7 @@ class Home
 		$data['quiz']->limit = $limit;
 
 		$query = "SELECT DISTINCT 
-		l.level_id, l.level_name, l.level_abbreviation, c.category_id, c.category_name, q.year_or_form 
+		l.level_id, l.level_name, l.level_abbreviation, l.level_certificate, c.category_id, c.category_name, q.year_or_form 
 		FROM quizzes q 
 		INNER JOIN categories c 
 		ON c.category_id = q.category_id 
