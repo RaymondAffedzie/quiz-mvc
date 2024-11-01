@@ -32,7 +32,7 @@
 						<div class="col-xl-3 col-lg-6 d-flex flex-sm-column flex-fill" data-aos="fade-up" data-aos-delay="100">
 							<div class="service-item position-relative">
 								<h4>
-									<a href="" class="stretched-link"><?= htmlspecialchars($row->level_certificate); ?></a>
+									<a href="<?=ROOT . '/' . 'pastQuestionsSubjects/' . htmlspecialchars($row->year_or_form) . '/' . htmlspecialchars($row->level_id);?>" class="stretched-link"><?= htmlspecialchars($row->level_certificate); ?></a>
 								</h4>
 								<p><?= htmlspecialchars($row->year_or_form) . " " .  htmlspecialchars($row->level_abbreviation) . "  " . htmlspecialchars($row->category_name); ?></p>
 							</div>
@@ -84,15 +84,15 @@
 						<div class="col-xl-3 col-lg-6 d-flex flex-sm-column flex-fill" data-aos="fade-up" data-aos-delay="100">
 							<div class="service-item position-relative">
 								<h4>
-									<a href="" class="stretched-link"><?= htmlspecialchars($row->level_certificate); ?></a>
+									<a href="<?=ROOT . '/' . 'pastQuestionsSubjects/' . htmlspecialchars($row->year_or_form) . '/' . htmlspecialchars($row->level_id);?>" class="stretched-link"><?= htmlspecialchars($row->level_certificate); ?></a>
 								</h4>
-								<p><?= htmlspecialchars($row->year_or_form) . " " . htmlspecialchars($row->category_name); ?></p>
+								<p><?= htmlspecialchars($row->year_or_form) . " " .  htmlspecialchars($row->level_abbreviation) . "  " . htmlspecialchars($row->category_name); ?></p>
 							</div>
 						</div>
 					<?php endif; ?>
 				<?php endforeach; ?>
 			<?php else: ?>
-				<div class="col-xl-3 col-lg-6 d-flex flex-sm-column flex-fill" data-aos="fade-up" data-aos-delay="100">
+				<div class="col-xl-3 col-lg-6 flex-sm-column d-flex" data-aos="fade-up" data-aos-delay="100">
 					<div class="service-item position-relative">
 						<p>No SHS past questions available at the moment.</p>
 					</div>
@@ -111,8 +111,8 @@
 	<div class="container section-title" data-aos="fade-up">
 		<h2>
 			<?php
-			// Check if there are any TVET records and get the level name
-			$level_name = "TVET Past Questions"; // Default if no TVET found
+			// Check if there are any JHS records and get the level name
+			$level_name = "TVET Past Questions"; // Default if no JHS found
 			if (isset($rows) && is_array($rows)) {
 				foreach ($rows as $row) {
 					if ($row->level_abbreviation === 'TVET') {
@@ -136,7 +136,7 @@
 						<div class="col-xl-3 col-lg-6 d-flex flex-sm-column flex-fill" data-aos="fade-up" data-aos-delay="100">
 							<div class="service-item position-relative">
 								<h4>
-									<a href="" class="stretched-link"><?= htmlspecialchars($row->level_certificate); ?></a>
+									<a href="<?=ROOT . '/' . 'pastQuestionsSubjects/' . htmlspecialchars($row->year_or_form) . '/' . htmlspecialchars($row->level_id);?>" class="stretched-link"><?= htmlspecialchars($row->level_certificate); ?></a>
 								</h4>
 								<p><?= htmlspecialchars($row->year_or_form) . " " .  htmlspecialchars($row->level_abbreviation) . "  " . htmlspecialchars($row->category_name); ?></p>
 							</div>
@@ -144,9 +144,9 @@
 					<?php endif; ?>
 				<?php endforeach; ?>
 			<?php else: ?>
-				<div class="col-xl-3 col-lg-6 d-flex flex-sm-column flex-fill" data-aos="fade-up" data-aos-delay="100">
+				<div class="col-xl-3 col-lg-6 flex-sm-column d-flex" data-aos="fade-up" data-aos-delay="100">
 					<div class="service-item position-relative">
-						<p>No JHS past questions available at the moment.</p>
+						<p>No TVET past questions available at the moment.</p>
 					</div>
 				</div>
 			<?php endif; ?>

@@ -171,4 +171,25 @@ class Quiz
 			redirect("admin/quizzes");
 		}
 	}
+
+	// Fetch quiz questions with options
+	public function getQuizQuestionsWithOptions($quiz_id)
+	{
+		$questionModel = new Question();
+		$optionModel = new Option();
+
+		$limit = 100;
+
+		$questionModel->limit = $limit;
+
+		// Fetch questions for the given quiz ID
+		$questions = $questionModel->where(['quiz_id' => $quiz_id]);
+
+		// Add options to each question
+		foreach ($questions as &$question) {
+			$question->options = $optionModel->where(['question_id' => $question->question_id]);
+		}
+
+		return $questions;
+	}
 }
